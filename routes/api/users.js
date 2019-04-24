@@ -8,6 +8,9 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/dbkey');
+// load validation input
+const validateRegisterInput = require('../../validation/register');
+const validateLoginInput = require('../../validation/login');
 
 router.get('/test',function(req,res){
     res.json({
@@ -18,16 +21,23 @@ router.get('/test',function(req,res){
 // @ register
 // public
 router.post('/register',function(req,res){
+    let {errors,isValid} = validateRegisterInput(req.body);
+    // const {errors,isValid} = validateRegisterInput(req.body);
+    // check validation
+    if(!isValid){
+        return res.status(400).json(errors);
+    }
     UserModel.findOne({email: req.body.email}).then(function(user){
         if(user){
-            return res.status(400).json({email: 'Email đã tồn tại'});
+            errors.email = 'Email already exists'
+            return res.status(400).json({errors});
         }else{
             var avatar = gravatar.url(req.body.email,{
                 s: '200', //size
                 r: 'pg', //rating
                 d:'mm'
             });
-            const newUser = new UserModel({
+            var newUser = new UserModel({
                 name: req.body.name,
                 email: req.body.email,
                 avatar: avatar,
@@ -50,14 +60,20 @@ router.post('/register',function(req,res){
 // @ login user / return JWT token
 // @access public
 router.post('/login',function(req,res){
-    const email = req.body.email;
-    const password = req.body.password;
+    let {errors,isValid} = validateLoginInput(req.body);
+    // check validation
+    if(!isValid){
+        return res.status(400).json(errors);
+    }
+    var email = req.body.email;
+    var password = req.body.password;
     // find user by email
     UserModel.findOne({email: email})
         .then(user=>{
             // check user
             if(!user){
-            return res.status(404).json({email:'Email not found'});
+                errors.email = 'Email not found'
+                return res.status(404).json(errors.email);
             }
             // Check password
             bcrypt.compare(password, user.password)
@@ -72,14 +88,15 @@ router.post('/login',function(req,res){
                         }
                         // res.json({msg:'Success'});
                         // Sign token - expire in 1 hour
-                        jwt.sign(payload, keys.sercetorKey,{expiresIn: 3600},function(err,token){
+                        jwt.sign(payload, keys.sercetOrKey,{expiresIn: 3600},function(err,token){
                             res.json({
                                 success: true,
                                 token: 'Bearer '+ token
                             });
                         });
                     }else{
-                        return res.status(400).json({password: 'Password incorrect'});
+                        errors.password = 'Password incorrect';
+                        return res.status(400).json(errors.password);
                     }
                 });
         });
