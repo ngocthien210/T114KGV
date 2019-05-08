@@ -4,8 +4,9 @@ const Schema = mongoose.Schema;
 const ProfileSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref:'users'
+        ref:'UserSchema'
     },
+    // link thân thien, tên người dùng
     handle:{
         type: String,
         required: true,

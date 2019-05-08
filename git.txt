@@ -1,1 +1,10 @@
 Đường dẫn github là https://github.com/ngocthien210/T114KGV.github
+
+Work flow
+- Set up node module: express, mongoose, passport, passport-jwt, jsonwebtoken, body-parser, bcryptjs, validator, gravatar
+- set up mongoose, router, listen port
+- User:  Route - UserModel - login/register - passport - validator
+- Profile: route - model - create - editor - delete
+
+
+1. 
