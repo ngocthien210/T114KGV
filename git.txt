@@ -5,6 +5,13 @@ Work flow
 - set up mongoose, router, listen port
 - User:  Route - UserModel - login/register - passport - validator
 - Profile: route - model - create - editor - delete
+- Post
 
-
+Front end
+- JSX
+- react-router-dom
+- axios
+- classnames to add class validate input
+- redux react-redux redux-thunk
+redux workflow: type ->action -> reducer -> index reducer -> component
 1. 
