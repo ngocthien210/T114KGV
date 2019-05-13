@@ -11,7 +11,30 @@ import Footer from './components/layout/Footer';
 import Landing from './components/layout/Landing';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import setAuthToken from './utils/setAuthToken';
+// decoe jwt-token
+import jwt_decode from 'jwt-decode';
+import { setCurrentUser, logoutUser } from './actions/authAction';
 
+
+// Check token
+if(localStorage.jwtToken){
+  // set auth token header auth
+  setAuthToken(localStorage.jwtToken);
+  // Decode token and get user info and exp
+  const decodedData = jwt_decode(localStorage.jwtToken);
+  // Set user and isAuthenicated 
+  _Store.dispatch(setCurrentUser(decodedData));
+  // Check expired token
+  const currentTime = Date.now()/1000;
+  if(decodedData.exp <currentTime){
+    // Logout user
+    _Store.dispatch(logoutUser());
+    // Clear current profile
+    // Redirect Login
+    window.location.href = '/login';
+  }
+}
 
 function App() {
   return (

@@ -1,7 +1,7 @@
 // thêm các thành phần cần thiết của redux - compose dùng để dev tool debug
 import {createStore, applyMiddleware,compose} from 'redux';
 import thunk from 'redux-thunk';
-import rootReducer from './reducers';
+import rootReducer from './reducers/rootReducer';
 
 
 const initialState = {};
