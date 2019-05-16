@@ -1,6 +1,6 @@
 import React from 'react';
 // router
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route,Switch} from 'react-router-dom';
 // redux
 import {Provider} from 'react-redux';
 import _Store from './Store';
@@ -11,10 +11,15 @@ import Footer from './components/layout/Footer';
 import Landing from './components/layout/Landing';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import Dashboard from './components/dashboard/Dashboard';
 import setAuthToken from './utils/setAuthToken';
 // decoe jwt-token
 import jwt_decode from 'jwt-decode';
 import { setCurrentUser, logoutUser } from './actions/authAction';
+import { clearCurrentProfile } from './actions/profileAction';
+import PrivateRoute from './components/common/PrivateRoute';
+import CreateProfile from './components/dashboard/CreateProfile';
+
 
 
 // Check token
@@ -25,12 +30,14 @@ if(localStorage.jwtToken){
   const decodedData = jwt_decode(localStorage.jwtToken);
   // Set user and isAuthenicated 
   _Store.dispatch(setCurrentUser(decodedData));
+
   // Check expired token
   const currentTime = Date.now()/1000;
-  if(decodedData.exp <currentTime){
+  if(decodedData.exp < currentTime){
     // Logout user
     _Store.dispatch(logoutUser());
     // Clear current profile
+    _Store.dispatch(clearCurrentProfile());
     // Redirect Login
     window.location.href = '/login';
   }
@@ -45,6 +52,14 @@ function App() {
         <Route exact path="/" component={Landing}/>
         <Route path="/login" component={Login}/>
         <Route path="/register" component={Register}/>
+        <Switch>
+          {/* cusotm route for dashboard */}
+          <PrivateRoute path="/dashboard" component={Dashboard}/>
+        </Switch>
+        <Switch>
+          {/* cusotm route for dashboard */}
+          <PrivateRoute path="/create-profile" component={CreateProfile}/>
+        </Switch>        
         <Footer/>
       </div>
     </Router>

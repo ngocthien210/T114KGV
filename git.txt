@@ -13,5 +13,7 @@ Front end
 - axios
 - classnames to add class validate input
 - redux react-redux redux-thunk
+- prop-types
+
 redux workflow: type ->action -> reducer -> index reducer -> component
 1. 

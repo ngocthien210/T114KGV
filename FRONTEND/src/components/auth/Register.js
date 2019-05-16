@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom';
-
 import PropTypes from 'prop-types';
-// import axios from 'axios';
-import classnames from 'classnames';
 import {connect} from 'react-redux';
-
+import TextFieldGroup from '../common/TextFieldGroup';
 // lệnh action đã làm sẵn
 import {registerUser} from '../../actions/authAction';
 class Register extends Component {
@@ -66,7 +63,35 @@ class Register extends Component {
               <h1 className="display-4 text-center">Sign Up</h1>
               <p className="lead text-center">Create your DevConnector account</p>
               <form action="create-profile.html">
-                <div className="form-group">
+                <TextFieldGroup
+                  placeholder="Full name"
+                  name="name"
+                  type="text"
+                  onChange={(event)=>this.onChange(event)}
+                  error={errors.name}
+                />
+                <TextFieldGroup
+                  placeholder="Email Address"
+                  name="email"
+                  type="email"
+                  onChange={(event)=>this.onChange(event)}
+                  error={errors.email}
+                />
+                <TextFieldGroup
+                  placeholder="Password"
+                  name="password"
+                  type="password"
+                  onChange={(event)=>this.onChange(event)}
+                  error={errors.password}
+                />  
+                <TextFieldGroup
+                  placeholder="Confirm password"
+                  name="confirmPassword"
+                  type="password"
+                  onChange={(event)=>this.onChange(event)}
+                  error={errors.confirmPassword}
+                />                              
+                {/* <div className="form-group">
                   <input type="text" className={classnames('form-control form-control-lg',{'is-invalid':errors.name})} placeholder="Name" name="name" required 
                   onChange={(event)=>this.onChange(event)} />
                   {errors.name&&(<div className="invalid-feedback">{errors.name}</div>)}
@@ -85,7 +110,7 @@ class Register extends Component {
                 <div className="form-group">
                   <input type="password" className={classnames('form-control form-control-lg',{'is-invalid':errors.confirmPassword})} placeholder="Confirm Password" name="confirmPassword" onChange={(event)=>this.onChange(event)}/>
                   {errors.confirmPassword&&(<div className="invalid-feedback">{errors.confirmPassword}</div>)}
-                </div>
+                </div> */}
                 <input type="button" className="btn btn-info btn-block mt-4" value="Sign Up" onClick={(event)=>this.onSubmit(event)}/>
               </form>
             </div>

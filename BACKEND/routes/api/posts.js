@@ -4,7 +4,7 @@ const passport = require('passport');
 const router = express.Router();
 // Model
 const PostModel = require('../../models/PostModel');
-const ProfileModel = require('../../models/ProfileModel');
+// const ProfileModel = require('../../models/ProfileModel');
 // validation
 const validatePostInput = require('../../validation/post');
 
@@ -40,16 +40,16 @@ router.get('/:id',function(req,res){
 // @DESC Create post
 // @access Private
 router.post('/',passport.authenticate('jwt',{session:false}), function(req,res){
-    const {errors,isValid} = validatePostInput(req.body);
+    let {errors,isValid} = validatePostInput(req.body);
     // Check validation
     if(!isValid){
         // If any errors, send 400 with errors object
         return res.status(400).json(errors);
     }
     const newPost = new PostModel({
-        text: req.body.text,
-        name: req.body.name,
-        avatar: req.body.avatar,
+        text: req.body.text.trim(),
+        name: req.body.name.trim(),
+        avatar: req.body.avatar.trim(),
         user: req.user.id
     });
 
@@ -119,7 +119,7 @@ router.post('/unlike/:id',passport.authenticate('jwt',{session:false}),function(
 // @access Private
 router.post('/comment/:id',passport.authenticate('jwt',{session:false}),function(req,res){
     // The same validation with posts
-    const {errors,isValid} = validatePostInput(req.body);
+    let {errors,isValid} = validatePostInput(req.body);
     // Check validation
     if(!isValid){
         // If any errors, send 400 with errors object
@@ -129,9 +129,9 @@ router.post('/comment/:id',passport.authenticate('jwt',{session:false}),function
     PostModel.findById(req.params.id)
     .then(function(post){
         const newComment = {
-            text: req.body.text,
-            name: req.body.name,
-            avatar: req.body.avatar,
+            text: req.body.text.trim(),
+            name: req.body.name.trim(),
+            avatar: req.body.avatar.trim(),
             user: req.user.id
         }
         // Add to comments array

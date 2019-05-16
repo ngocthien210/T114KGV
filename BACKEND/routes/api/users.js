@@ -21,27 +21,27 @@ router.get('/test',function(req,res){
 // @ register
 // public
 router.post('/register',function(req,res){
-    const {errors,isValid} = validateRegisterInput(req.body);
+    let {errors,isValid} = validateRegisterInput(req.body);
     // const {errors,isValid} = validateRegisterInput(req.body);
     // check validation
     if(!isValid){
         return res.status(400).json(errors);
     }
-    UserModel.findOne({email: req.body.email}).then(function(user){
+    UserModel.findOne({email: req.body.email.trim()}).then(function(user){
         if(user){
-            errors.email = 'Email already exists'
-            return res.status(400).json({errors});
+            errors.email = 'Email already exists';
+            return res.status(400).json(errors);
         }else{
-            var avatar = gravatar.url(req.body.email,{
+            var avatar = gravatar.url(req.body.email.trim(),{
                 s: '200', //size
                 r: 'pg', //rating
                 d:'mm'
             });
             var newUser = new UserModel({
-                name: req.body.name,
-                email: req.body.email,
+                name: req.body.name.trim(),
+                email: req.body.email.trim(),
                 avatar: avatar,
-                password: req.body.password
+                password: req.body.password.trim()
             });
             // mã hóa mật khẩu
             bcrypt.genSalt(10,function(err,salt){
@@ -72,8 +72,8 @@ router.post('/login',function(req,res){
         .then(user=>{
             // check user
             if(!user){
-                errors.email = 'Email not found'
-                return res.status(404).json(errors.email);
+                errors.email = 'Email not found';
+                return res.status(404).json(errors);
             }
             // Check password
             bcrypt.compare(password, user.password)
@@ -96,7 +96,7 @@ router.post('/login',function(req,res){
                         });
                     }else{
                         errors.password = 'Password incorrect';
-                        return res.status(400).json(errors.password);
+                        return res.status(400).json(errors);
                     }
                 });
         });

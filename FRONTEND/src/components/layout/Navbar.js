@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import {Link, withRouter} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {logoutUser} from '../../actions/authAction';
+// clear current profile
+import {clearCurrentProfile} from '../../actions/profileAction';
+
 
 class Navbar extends Component {
     onLogoutClick = (event)=>{
         event.preventDefault();
-        // Muốn dùng được history phải có thư viện withRouter
-        this.props.logoutUser(this.props.history);
+        this.props.clearCurrentProfile();
+        this.props.logoutUser();
     }
     render() {
         // console.log(this.props.auth);
@@ -66,4 +69,4 @@ const mapStateToProps = (state) =>{
         auth: state.auth
     }
 }
-export default connect(mapStateToProps,{logoutUser})(withRouter(Navbar));
+export default connect(mapStateToProps,{logoutUser,clearCurrentProfile})(Navbar);

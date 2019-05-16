@@ -60,7 +60,7 @@ router.get('/all',function(req,res){
 // @DESC GET PROFILE by handle
 // @access Public
 router.get('/handle/:handle',function(req,res){
-    ProfileModel.findOne({handle: req.params.handle})
+    ProfileModel.findOne({handle: req.params.handle.trim()})
     .populate('user',['name','avatar'])
     .then(function(profile){
         if(!profile){
@@ -78,7 +78,7 @@ router.get('/handle/:handle',function(req,res){
 // @DESC GET PROFILE by user_id
 // @access Public
 router.get('/user/:user_id',function(req,res){
-    ProfileModel.findOne({user: req.params.user_id})
+    ProfileModel.findOne({user: req.params.user_id.trim()})
     .populate('user',['name','avatar'])
     .then(function(profile){
         if(!profile){
@@ -97,7 +97,7 @@ router.get('/user/:user_id',function(req,res){
 // @access Private
 router.post('/',passport.authenticate('jwt',{session:false}),function(req,res){
 
-    const {errors, isValid} = validateProfileInput(req.body);
+    let {errors, isValid} = validateProfileInput(req.body);
     // Check Validation
     if(!isValid){
         // Return any errors with 400 status
@@ -106,24 +106,29 @@ router.post('/',passport.authenticate('jwt',{session:false}),function(req,res){
     // GET fields
     var profileFields = {};
     profileFields.user = req.user.id;
-    if(req.body.handle){ profileFields.handle = req.body.handle; }
-    if(req.body.company){ profileFields.company = req.body.company; }
-    if(req.body.website){ profileFields.website = req.body.website; }
-    if(req.body.location){ profileFields.location = req.body.location; }
-    if(req.body.bio){ profileFields.bio = req.body.bio; }
-    if(req.body.status){ profileFields.status = req.body.status; }
-    if(req.body.githubusername){ profileFields.githubusername = req.body.githubusername; }
+    if(req.body.handle){ profileFields.handle = req.body.handle.trim(); }
+    if(req.body.company){ profileFields.company = req.body.company.trim(); }
+    if(req.body.website){ profileFields.website = req.body.website.trim(); }
+    if(req.body.location){ profileFields.location = req.body.location.trim(); }
+    if(req.body.bio){ profileFields.bio = req.body.bio.trim(); }
+    if(req.body.status){ profileFields.status = req.body.status.trim(); }
+    if(req.body.githubusername){ profileFields.githubusername = req.body.githubusername.trim(); }
     //skills - split into array
     if(typeof(req.body.skills)!=='undefined'){
-        profileFields.skills = req.body.skills.split(',');
+        var data = req.body.skills.split(',');
+        profileFields.skills = [];
+        data.forEach(dt => {
+            profileFields.skills.push(dt.trim());
+        });
+        // profileFields.skills = data;
     }
     // Social
     profileFields.social = {};
-    if(req.body.youtube){ profileFields.social.youtube = req.body.youtube; }
-    if(req.body.twitter){ profileFields.social.twitter = req.body.twitter; }
-    if(req.body.facebook){ profileFields.social.facebook = req.body.facebook; }
-    if(req.body.linkedin){ profileFields.social.linkedin = req.body.linkedin; }
-    if(req.body.instagram){ profileFields.social.instagram = req.body.instagram; }
+    if(req.body.youtube){ profileFields.social.youtube = req.body.youtube.trim(); }
+    if(req.body.twitter){ profileFields.social.twitter = req.body.twitter.trim(); }
+    if(req.body.facebook){ profileFields.social.facebook = req.body.facebook.trim(); }
+    if(req.body.linkedin){ profileFields.social.linkedin = req.body.linkedin.trim(); }
+    if(req.body.instagram){ profileFields.social.instagram = req.body.instagram.trim(); }
 
     ProfileModel.findOne({user:req.user.id})
     .then(function(profile){
@@ -140,7 +145,7 @@ router.post('/',passport.authenticate('jwt',{session:false}),function(req,res){
         else{
             // Create
             // Check handle exists (link thân thiện)
-            ProfileModel.findOne({handle: profileFields.handle})
+            ProfileModel.findOne({handle: profileFields.handle.trim()})
             .then(function(profile){
                 if(profile){
                     errors.handle = 'That handle already exists';
@@ -161,7 +166,7 @@ router.post('/',passport.authenticate('jwt',{session:false}),function(req,res){
 // @DESC Add Experience to profile
 // @access Private
 router.post('/experience',passport.authenticate('jwt',{session:false}),function(req,res){
-    const {errors, isValid} = validateExperienceInput(req.body);
+    let {errors, isValid} = validateExperienceInput(req.body);
     // Check Validation
     if(!isValid){
         // Return any errors with 400 status
@@ -191,7 +196,7 @@ router.post('/experience',passport.authenticate('jwt',{session:false}),function(
 // @DESC Add education to profile
 // @access Private
 router.post('/education',passport.authenticate('jwt',{session:false}),function(req,res){
-    const {errors, isValid} = validateEducationInput(req.body);
+    let {errors, isValid} = validateEducationInput(req.body);
     // Check Validation
     if(!isValid){
         // Return any errors with 400 status
