@@ -5,6 +5,11 @@ import {BrowserRouter as Router, Route,Switch} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import _Store from './Store';
 import './App.css';
+// decoe jwt-token
+import jwt_decode from 'jwt-decode';
+// action
+import { setCurrentUser, logoutUser } from './actions/authAction';
+import { clearCurrentProfile } from './actions/profileAction';
 // componet
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
@@ -13,12 +18,9 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Dashboard from './components/dashboard/Dashboard';
 import setAuthToken from './utils/setAuthToken';
-// decoe jwt-token
-import jwt_decode from 'jwt-decode';
-import { setCurrentUser, logoutUser } from './actions/authAction';
-import { clearCurrentProfile } from './actions/profileAction';
 import PrivateRoute from './components/common/PrivateRoute';
 import CreateProfile from './components/dashboard/CreateProfile';
+import EditProfile from './components/dashboard/EditProfile';
 
 
 
@@ -59,7 +61,11 @@ function App() {
         <Switch>
           {/* cusotm route for dashboard */}
           <PrivateRoute path="/create-profile" component={CreateProfile}/>
-        </Switch>        
+        </Switch> 
+        <Switch>
+          {/* cusotm route for dashboard */}
+          <PrivateRoute path="/edit-profile" component={EditProfile}/>
+        </Switch>       
         <Footer/>
       </div>
     </Router>
