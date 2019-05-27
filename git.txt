@@ -11,9 +11,14 @@ Front end
 - JSX
 - react-router-dom
 - axios
+- jwt-decode
 - classnames to add class validate input
 - redux react-redux redux-thunk
 - prop-types
+-  moment react-moment to format date or use Intl.DateTimeFormat('en-GB')
+
+
+Kinh nghiệm: ko lưu json web token vào localStorage mà lưu vào cookies
 
 redux workflow: type ->action -> reducer -> index reducer -> component
 1. 

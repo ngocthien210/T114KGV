@@ -30,7 +30,7 @@ TextAreaFieldGroup.propTypes = {
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     value:  PropTypes.string,
-    error: PropTypes.object,
+    error: PropTypes.string,
     info: PropTypes.string,
     onChange:  PropTypes.func.isRequired
 }

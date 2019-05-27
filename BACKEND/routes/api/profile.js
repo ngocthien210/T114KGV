@@ -187,9 +187,7 @@ router.post('/experience',passport.authenticate('jwt',{session:false}),function(
         profile.experience.unshift(newExp);
         // insert to db
         profile.save().then(profile =>res.json(profile));
-
-
-    })
+    });
 });
 
 // @route POST api/profile/education

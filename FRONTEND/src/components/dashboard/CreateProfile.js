@@ -141,7 +141,7 @@ class CreateProfile extends Component {
               <h1 className="display-4 text-center">Edit Your Profile</h1>
               <p className="lead text-center">Let's get some information to make your profile stand out</p>
               <small className="d-block pb-3">* = required field</small>
-              <form>
+              <form onSubmit={(event)=>this.onSubmit(event)}>
                 <TextFieldGroup
                   placeholder="* Profile handle"
                   name="handle"
@@ -219,7 +219,7 @@ class CreateProfile extends Component {
                   <span className="text-muted"> (Optional)</span>
                 </div>
                 {socialInputs}  
-                <input type="button" onClick={(event)=>this.onSubmit(event)} value="Submit" className="btn btn-info btn-block mt-4" />
+                <input type="submit"  value="Submit" className="btn btn-info btn-block mt-4" />
               </form>
             </div>
           </div>

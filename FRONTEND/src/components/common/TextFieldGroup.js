@@ -35,11 +35,11 @@ TextFieldGroup.propTypes = {
     placeholder: PropTypes.string,
     value:  PropTypes.string,
     label:  PropTypes.string,
-    error: PropTypes.object,
+    error: PropTypes.string,
     info: PropTypes.string,
     type: PropTypes.string.isRequired,
     onChange:  PropTypes.func.isRequired,
-    disabled:  PropTypes.string
+    disabled:  PropTypes.bool
 }
 TextFieldGroup.defaultProps = {
     type: 'text'

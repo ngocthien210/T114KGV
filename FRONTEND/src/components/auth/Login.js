@@ -13,6 +13,16 @@ class Login extends Component {
             errors:{}
         }
     }
+    // input: HTMLDivElement | null = null;
+
+   onKeyDown = (event) => {
+      // 'keypress' event misbehaves on mobile so we track 'Enter' key via 'keydown' event
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        event.stopPropagation();
+        this.onSubmit();
+      }
+    }
     onChange = (event)=>{
         this.setState({
             [event.target.name]:event.target.value
@@ -52,7 +62,7 @@ class Login extends Component {
                 <div className="col-md-6 m-auto">
                     <h1 className="display-4 text-center">Log In</h1>
                     <p className="lead text-center">Log in to your DevConnector account</p>
-                    <form action="dashboard.html">
+                    <form onSubmit={(event)=>this.onSubmit(event)}>
                     {/* <div className="form-group">
                         <input type="email" className={classnames('form-control form-control-lg',{'is-invalid':errors.email})} placeholder="Email Address" name="email" 
                         onChange={(event)=>this.onChange(event)}/>
@@ -70,13 +80,10 @@ class Login extends Component {
                         name="password"
                         type="password"
                         onChange={(event)=>this.onChange(event)}
+                        onKeyDown={(event)=>this.onKeyDown(event)}
                         error={errors.password}
                     />
-                    {/* <div className="form-group">
-                        <input type="password" className={classnames('form-control form-control-lg',{'is-invalid':errors.password})} placeholder="Password" name="password" onChange={(event)=>this.onChange(event)}/>
-                        {errors.password&&(<div className="invalid-feedback">{errors.password}</div>)}
-                    </div> */}
-                    <input type="button" className="btn btn-info btn-block mt-4" value="Log In" onClick={(event)=>this.onSubmit(event)}/>
+                    <input type="submit" className="btn btn-info btn-block mt-4" value="Log In" />
                     </form>
                 </div>
                 </div>

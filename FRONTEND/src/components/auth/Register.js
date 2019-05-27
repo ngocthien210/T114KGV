@@ -62,7 +62,7 @@ class Register extends Component {
             <div className="col-md-6 m-auto">
               <h1 className="display-4 text-center">Sign Up</h1>
               <p className="lead text-center">Create your DevConnector account</p>
-              <form action="create-profile.html">
+              <form onSubmit={(event)=>this.onSubmit(event)}>
                 <TextFieldGroup
                   placeholder="Full name"
                   name="name"
@@ -91,27 +91,7 @@ class Register extends Component {
                   onChange={(event)=>this.onChange(event)}
                   error={errors.confirmPassword}
                 />                              
-                {/* <div className="form-group">
-                  <input type="text" className={classnames('form-control form-control-lg',{'is-invalid':errors.name})} placeholder="Name" name="name" required 
-                  onChange={(event)=>this.onChange(event)} />
-                  {errors.name&&(<div className="invalid-feedback">{errors.name}</div>)}
-                </div>
-                <div className="form-group">
-                  <input type="email" className={classnames('form-control form-control-lg',{'is-invalid':errors.email})} placeholder="Email Address" name="email" 
-                  onChange={(event)=>this.onChange(event)} />
-                  {errors.email&&(<div className="invalid-feedback">{errors.email}</div>)}
-                  <small className="form-text text-muted">This site uses Gravatar so if you want a profile image, use a Gravatar email</small>
-                </div>
-                <div className="form-group">
-                  <input type="password" className={classnames('form-control form-control-lg',{'is-invalid':errors.password})} placeholder="Password" name="password" 
-                  onChange={(event)=>this.onChange(event)}/>
-                  {errors.password&&(<div className="invalid-feedback">{errors.password}</div>)}
-                </div>
-                <div className="form-group">
-                  <input type="password" className={classnames('form-control form-control-lg',{'is-invalid':errors.confirmPassword})} placeholder="Confirm Password" name="confirmPassword" onChange={(event)=>this.onChange(event)}/>
-                  {errors.confirmPassword&&(<div className="invalid-feedback">{errors.confirmPassword}</div>)}
-                </div> */}
-                <input type="button" className="btn btn-info btn-block mt-4" value="Sign Up" onClick={(event)=>this.onSubmit(event)}/>
+                <input type="submit" className="btn btn-info btn-block mt-4" value="Sign Up" />
               </form>
             </div>
           </div>

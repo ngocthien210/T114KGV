@@ -21,8 +21,13 @@ import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/common/PrivateRoute';
 import CreateProfile from './components/dashboard/CreateProfile';
 import EditProfile from './components/dashboard/EditProfile';
-
-
+import AddExperience from './components/dashboard/AddExperience';
+import AddEducation from './components/dashboard/AddEducation';
+import Profiles from './components/publicpage/Profiles';
+import Profile from './components/publicpage/Profile';
+import NotFound404 from './components/publicpage/NotFound404';
+import Posts from "./components/posts/Posts";
+import Post from "./components/posts/Post";
 
 // Check token
 if(localStorage.jwtToken){
@@ -52,20 +57,34 @@ function App() {
       <div>
         <Navbar/>
         <Route exact path="/" component={Landing}/>
-        <Route path="/login" component={Login}/>
-        <Route path="/register" component={Register}/>
+        <Route exact  path="/login" component={Login}/>
+        <Route exact path="/register" component={Register}/>
+        <Route exact path="/profiles" component={Profiles}/>
+        <Route exact path="/profile/:handle" component={Profile}/>
+        {/* <Route exact path="/profile/:id" component={Profile}/> */}
         <Switch>
           {/* cusotm route for dashboard */}
-          <PrivateRoute path="/dashboard" component={Dashboard}/>
+          <PrivateRoute exact path="/dashboard" component={Dashboard}/>
         </Switch>
         <Switch>
-          {/* cusotm route for dashboard */}
-          <PrivateRoute path="/create-profile" component={CreateProfile}/>
+          <PrivateRoute exact path="/create-profile" component={CreateProfile}/>
         </Switch> 
         <Switch>
-          {/* cusotm route for dashboard */}
-          <PrivateRoute path="/edit-profile" component={EditProfile}/>
-        </Switch>       
+          <PrivateRoute exact path="/edit-profile" component={EditProfile}/>
+        </Switch>
+        <Switch>
+          <PrivateRoute exact path="/add-experience" component={AddExperience}/>
+        </Switch> 
+        <Switch>
+          <PrivateRoute exact path="/add-education" component={AddEducation}/>
+        </Switch> 
+        <Switch>
+          <PrivateRoute exact path="/feed" component={Posts}/>
+        </Switch> 
+        <Switch>
+          <PrivateRoute exact path="/post/:id" component={Post}/>
+        </Switch>        
+        <Route exact path="/notfound" component={NotFound404}/>              
         <Footer/>
       </div>
     </Router>

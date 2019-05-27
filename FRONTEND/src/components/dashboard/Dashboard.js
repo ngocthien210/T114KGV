@@ -5,6 +5,9 @@ import {connect} from 'react-redux';
 import {getCurrentProfile, deleteAccount} from '../../actions/profileAction';
 import Spinner from '../common/Spinner';
 import ProfileAction from './ProfileAction';
+import ExperienceTable from './ExperienceTable';
+import EducationTable from './EducationTable';
+
 
 class Dashboard extends Component {
   componentWillMount(){
@@ -28,6 +31,8 @@ class Dashboard extends Component {
             <p className="lead text-muted"><Link to={`/profile/${profile.handle}`}>Welcome {user.name}</Link> </p>
             <ProfileAction/>
             {/* TODO: exp and edu */}
+            <ExperienceTable experienceArr={profile.experience}/>
+            <EducationTable educationArr={profile.education}/>
             <div style={{marginBottom:'60px'}}></div>
             <button type="button" onClick={(event)=>this.deleteAccount(event)} className="btn btn-danger">Delete my account</button>
         </div>
@@ -38,7 +43,6 @@ class Dashboard extends Component {
             <p className="lead text-muted">Welcome {user.name}</p>
             <p>You have not yet setup a profile, please add some info</p>
             <Link to="/create-profile" className="btn btn-lg btn-info">Create your profile</Link>
-            <ProfileAction/>
           </div>
         );
       }

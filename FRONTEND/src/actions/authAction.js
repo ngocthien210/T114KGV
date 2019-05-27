@@ -22,8 +22,8 @@ export const registerUser = (userData, history) => dispatch =>{
         .catch(err=> dispatch({
             type: GET_ERRORS,
             data: err.response.data
-        })
-        )  ;
+            })
+        );
 }
 export const loginUser = (userData) => dispatch =>{
     axios.post('/api/users/login',userData)
